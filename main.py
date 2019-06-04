@@ -1,17 +1,12 @@
-import os
 import glob
+import os
+
 import pandas as pd
 
 from build_features import build_main_df
+from consts import DATA_PATH, NUMBER_OF_QUERIES_EACH_CHUNK
+from create_classifiers import create_classifiers
 from data_exploration import explore_data
-
-DATA_PATH = r".\data\raw\*.csv"
-
-NUMBER_OF_QUERIES_EACH_CHUNK = 750
-NUMBER_OF_USERS = 15
-LEARNING_USERS = 10
-TEST_UESR = 5
-LEARNING_CHUNKS = 50
 
 
 def collect_data():
@@ -44,7 +39,8 @@ def users_data_to_chunks(users_data):
         number_of_chunks = len(user_queries)
         user_queries_split_by_chunks = []
         for i in range(int(number_of_chunks / NUMBER_OF_QUERIES_EACH_CHUNK) + 1):
-            user_queries_split_by_chunks.append(user_queries[i*NUMBER_OF_QUERIES_EACH_CHUNK:(1+i)*NUMBER_OF_QUERIES_EACH_CHUNK])
+            user_queries_split_by_chunks.append(
+                user_queries[i * NUMBER_OF_QUERIES_EACH_CHUNK:(1 + i) * NUMBER_OF_QUERIES_EACH_CHUNK])
         users_queries_split_by_chunks.append(user_queries_split_by_chunks)
 
     return users_queries_split_by_chunks
@@ -57,6 +53,7 @@ def main():
     queries = users_data_to_chunks(users_data)
 
     df = build_main_df(queries, domains_usage_count_df, valid_domains, suspicious_domains)
+    create_classifiers(df, queries)
     pass
 
 
