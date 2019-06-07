@@ -3,6 +3,7 @@ from time import time
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
+from sklearn.utils import shuffle
 from xgboost import XGBClassifier
 
 from consts import NUMBER_OF_USERS, LEARNING_CHUNKS, TESTING_CHUNKS, USEABLE_CHUNKS
@@ -19,6 +20,7 @@ def create_classifiers(features, queries):
     features = features.reset_index()
 
     train_x = features.loc[features['Chunk'] < LEARNING_CHUNKS].set_index(['User', 'Chunk'])  # features without labels (first 50)
+    train_x = shuffle(train_x)
     train_y = pd.DataFrame({"label{}".format(i): list(train_x.pop("label{}".format(i))) for i in range(NUMBER_OF_USERS) }) # only labels (first 50)
     train_x = train_x.reset_index()
     train_x.pop('User')
