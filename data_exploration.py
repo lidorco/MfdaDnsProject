@@ -9,23 +9,11 @@ from consts import DOMAIN_COUNT_THRESHOLD, LEARNING_CHUNKS, NUMBER_OF_QUERIES_EA
 
 
 def explore_data(users_data):
+    # Some basic statistic on users_data
     print("number of users: {}".format(len(users_data)))
-    # check columns for each df
-    print("number of columns: {}\n columns: {}\n".format(len(users_data[0].columns), users_data[0].columns))
-    # check number of row on each df
-    sum = 0
-    min = 99999999
-    max = 0
-    for user in users_data:
-        sum += len(user.index)
-        if min > len(user.index):
-            min = len(user.index)
-        if max < len(user.index):
-            max = len(user.index)
-        # print("rows: {}".format(len(user.index)))
-    print("rows avg: {}".format(sum / len(users_data)))
-    print("rows min: {}".format(min))
-    print("rows max: {}".format(max))
+    print("rows avg: {}".format(sum([len(x) for x in users_data]) / len(users_data)))
+    print("rows min: {}".format(min([len(x) for x in users_data])))
+    print("rows max: {}".format(max([len(x) for x in users_data])))
 
     return explore_domains(users_data)
 
