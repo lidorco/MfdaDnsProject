@@ -38,7 +38,10 @@ def create_classifiers(features, queries):
     test_x.pop('User')
     test_x.pop('Chunk')
 
+    return train_x, train_y, test_x, test_y, test_y2
 
+
+def train_classifier(train_x, train_y):
     ### train ###
     models = []
     t1 = time()
@@ -50,9 +53,10 @@ def create_classifiers(features, queries):
     t2 = time()
     print('Finished XGBClassifier in ', t2, ' Total time ', t2 - t1, ' sec.')
 
+    return models
 
-    ### test results ###
 
+def test_results(models, test_x, test_y, test_y2):
     # check predictions:
     preds = []
     for i in range(NUMBER_OF_USERS):
