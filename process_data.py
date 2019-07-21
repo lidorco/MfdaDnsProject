@@ -66,6 +66,7 @@ def get_processed_data(users_data):
         if everyone_use_this_domain:
             valid_domains_used_by_all_users.add(domain)
 
+    all_domains_usage_count_df = domains_usage_count_df.copy()
     # Remove domain used by all users from domains_usage_count_df
     everyone_domains_usage_count_df = pd.DataFrame(columns=['domains', 'usage'])
     for domain in valid_domains_used_by_all_users:
@@ -75,7 +76,7 @@ def get_processed_data(users_data):
                                     inplace=True)
 
     everyone_domains_usage_count_df = everyone_domains_usage_count_df.sort_values('usage', ascending=False)
-    return domains_usage_count_df, valid_domains, suspicious_domains
+    return all_domains_usage_count_df, domains_usage_count_df, valid_domains, suspicious_domains
 
 
 def extract_domains(users_data):

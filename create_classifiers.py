@@ -4,12 +4,12 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
 from sklearn.utils import shuffle
-from xgboost import XGBClassifier
+
 
 from consts import NUMBER_OF_USERS, LEARNING_CHUNKS, TESTING_CHUNKS, USEABLE_CHUNKS
 
 
-def create_classifiers(features, queries):
+def split_to_train_and_test(features, queries):
     ### Add labels ###:
     for user_id in range(NUMBER_OF_USERS):
         features['label{}'.format(user_id)] = \
@@ -41,22 +41,22 @@ def create_classifiers(features, queries):
     return train_x, train_y, test_x, test_y, test_y2
 
 
-def train_classifier(train_x, train_y):
+def train_classifier(train_x, train_y, Classifier):
     ### train ###
     models = []
     t1 = time()
-    print("Started XGBClassifier in", t1)
+    print("Started {} in".format(Classifier.__name__), t1)
     for i in range(NUMBER_OF_USERS):
-        model = XGBClassifier()
+        model = Classifier()
         model.fit(train_x, train_y['label{}'.format(i)])
         models.append(model)
     t2 = time()
-    print('Finished XGBClassifier in ', t2, ' Total time ', t2 - t1, ' sec.')
+    print('Finished {} in '.format(Classifier.__name__), t2, ' Total time ', t2 - t1, ' sec.')
 
     return models
 
 
-def test_results(models, test_x, test_y, test_y2):
+def test_results(models, test_x, test_y, test_y2, Classifier):
     # check predictions:
     preds = []
     for i in range(NUMBER_OF_USERS):
@@ -82,5 +82,5 @@ def test_results(models, test_x, test_y, test_y2):
             predictions2.loc[(user_id, chunk_id), 'label'] = predicted_user_id
 
     accuracy = accuracy_score(predictions2, test_y2)
-    print("Accuracy: %.2f%%" % (accuracy * 100.0))
-    pass
+    print("Accuracy for {}: {}".format(Classifier.__name__, accuracy * 100.0))
+    return accuracy * 100.0
