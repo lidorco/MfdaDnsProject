@@ -1,3 +1,4 @@
+import datetime
 from time import time
 
 import numpy as np
@@ -83,4 +84,15 @@ def test_results(models, test_x, test_y, test_y2, Classifier):
 
     accuracy = accuracy_score(predictions2, test_y2)
     print("Accuracy for {}: {}".format(Classifier.__name__, accuracy * 100.0))
+
+    export_to_csv(predictions2, test_y2, Classifier)
     return accuracy * 100.0
+
+
+def export_to_csv(predictions, test_y, Classifier):
+    predictions.columns = ['pred']
+    test_y.columns = ['tag']
+    combined_df = test_y.join(predictions)
+    csv_name = ".\out\csv_pred\{}_{}.csv".format(str(datetime.datetime.now()).replace(" ", "_").replace(":", "-"),
+                                                 Classifier.__name__)
+    combined_df.to_csv(csv_name, index=True)

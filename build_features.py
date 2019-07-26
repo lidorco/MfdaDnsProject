@@ -7,11 +7,11 @@ def build_main_df(queries, times, all_domains_usage_count_df, domains_usage_coun
     """
     Returns df which indexes is: (user-id chunk-number)
     """
-    #df1 = common_domains_not_by_everyone(queries, domains_usage_count_df, valid_domains, suspicious_domains)
+    df1 = common_domains_not_by_everyone(queries, domains_usage_count_df, valid_domains, suspicious_domains)
     #df2 = common_domains(queries, all_domains_usage_count_df, valid_domains, suspicious_domains)
-    df3 = numaric_statistics(queries, times, all_domains_usage_count_df, valid_domains, suspicious_domains)
+    #df3 = numaric_statistics(queries, times, all_domains_usage_count_df, valid_domains, suspicious_domains)
 
-    df = df3
+    df = df1
 
     # remove data not needed:
     df = df.reset_index()
