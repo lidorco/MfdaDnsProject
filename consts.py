@@ -24,3 +24,5 @@ CLASSIFIERS = [XGBClassifier, GaussianNB, KNeighborsClassifier, AdaBoostClassifi
                RandomForestClassifier, GaussianProcessClassifier]
 ENABLE_COMMON_DOMAIN_FEATURE = True
 COMMON_DOMAIN_COUNT = 100
+
+SECONDS_IN_MINUTES = 60

@@ -9,11 +9,11 @@ plt.style.use('ggplot')
 
 def main():
     users_data = get_users_data()
-    queries = users_data_to_chunks(users_data)
+    queries, times = users_data_to_chunks(users_data)
 
     all_domains_usage_count_df, domains_usage_count_df, valid_domains, suspicious_domains = get_processed_data(users_data)
 
-    df = build_main_df(queries, all_domains_usage_count_df, domains_usage_count_df, valid_domains, suspicious_domains)
+    df = build_main_df(queries, times, all_domains_usage_count_df, domains_usage_count_df, valid_domains, suspicious_domains)
     train_x, train_y, test_x, test_y, test_y2 = split_to_train_and_test(df, queries)
 
     accuracy_results = []
@@ -26,7 +26,10 @@ def main():
     plt.figure(figsize=(13, 13))
     plt.bar(names, accuracy_results)
     plt.show()
+
+    print(accuracy_results)
     pass
+
 
 if __name__ == "__main__":
     main()

@@ -18,19 +18,29 @@ def users_data_to_chunks(users_data):
     ]
     """
     users_queries = []
+    users_queries_times = []
     for user in users_data:
         users_queries.append(list(user.loc[user['dns.flags.response'] == 0]['dns.qry.name']))
+        users_queries_times.append(list(user.loc[user['dns.flags.response'] == 0]['frame.time_epoch']))
 
     users_queries_split_by_chunks = []
-    for user_queries in users_queries:
+    users_queries_time_split_by_chunks = []
+
+    for user_index, user_queries in enumerate(users_queries):
         number_of_chunks = len(user_queries)
         user_queries_split_by_chunks = []
+        user_queries_time_split_by_chunks = []
+
         for i in range(int(number_of_chunks / NUMBER_OF_QUERIES_EACH_CHUNK) + 1):
             user_queries_split_by_chunks.append(
                 user_queries[i * NUMBER_OF_QUERIES_EACH_CHUNK:(1 + i) * NUMBER_OF_QUERIES_EACH_CHUNK])
-        users_queries_split_by_chunks.append(user_queries_split_by_chunks)
+            user_queries_time_split_by_chunks.append(
+                users_queries_times[user_index][i * NUMBER_OF_QUERIES_EACH_CHUNK:(1 + i) * NUMBER_OF_QUERIES_EACH_CHUNK])
 
-    return users_queries_split_by_chunks
+        users_queries_split_by_chunks.append(user_queries_split_by_chunks)
+        users_queries_time_split_by_chunks.append(user_queries_time_split_by_chunks)
+
+    return users_queries_split_by_chunks, users_queries_time_split_by_chunks
 
 def get_users_data():
     """
