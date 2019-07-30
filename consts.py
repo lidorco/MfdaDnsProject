@@ -7,6 +7,7 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectKBest # AttributeError: 'SelectKBest' object has no attribute 'predict_proba'
 from sklearn.gaussian_process import GaussianProcessClassifier # Bad prediction (7%)
+from sklearn.neural_network import MLPClassifier
 
 DATA_PATH = r".\data\raw\*.csv"
 
@@ -21,7 +22,7 @@ TESTING_CHUNKS = 40
 USEABLE_CHUNKS = LEARNING_CHUNKS + TESTING_CHUNKS
 
 CLASSIFIERS = [XGBClassifier, GaussianNB, KNeighborsClassifier, AdaBoostClassifier, GradientBoostingClassifier,
-               RandomForestClassifier]
+               RandomForestClassifier, MLPClassifier]
 ENABLE_COMMON_DOMAIN_FEATURE = True
 COMMON_DOMAIN_COUNT = 100
 
