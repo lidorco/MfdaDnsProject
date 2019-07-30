@@ -104,6 +104,7 @@ venv.bak/
 .mypy_cache/
 
 data/
+out/
 .idea/
 
 !data/domains_usage_count.json

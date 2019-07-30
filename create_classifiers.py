@@ -85,7 +85,6 @@ def test_results(models, test_x, test_y, test_y2, Classifier):
     accuracy = accuracy_score(predictions2, test_y2)
     print("Accuracy for {}: {}".format(Classifier.__name__, accuracy * 100.0))
 
-    export_to_csv(predictions2, test_y2, Classifier)
     return accuracy * 100.0
 
 
