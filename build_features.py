@@ -3,7 +3,8 @@ import pandas as pd
 from consts import USEABLE_CHUNKS, COMMON_DOMAIN_COUNT, NUMBER_OF_QUERIES_EACH_CHUNK, SECONDS_IN_MINUTES
 
 
-def build_main_df(queries, times, all_domains_usage_count_df, domains_usage_count_df, valid_domains, suspicious_domains):
+def build_main_df(queries, times, all_domains_usage_count_df, domains_usage_count_df, valid_domains,
+                  suspicious_domains, use_normalized=False):
     """
     Returns df which indexes is: (user-id chunk-number)
     """
@@ -19,7 +20,14 @@ def build_main_df(queries, times, all_domains_usage_count_df, domains_usage_coun
     df = df.loc[df['Chunk'] < USEABLE_CHUNKS]
     df = df.set_index(['User', 'Chunk'])
 
+    if use_normalized:
+        return normalized(df)
     return df
+
+
+def normalized(df):
+    normalized_df=(df-df.mean())/df.std()
+    return normalized_df
 
 
 def common_domains_not_by_everyone(queries, domains_usage_count_df, valid_domains, suspicious_domains):
